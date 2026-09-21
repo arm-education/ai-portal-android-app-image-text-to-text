@@ -4,6 +4,7 @@ public record ModelDescriptor(
         String id,
         String title,
         String repository,
+        String packageFile,
         String modelFile,
         String projectorFile,
         int contextSize,

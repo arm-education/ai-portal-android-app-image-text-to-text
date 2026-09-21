@@ -4,6 +4,7 @@
       "id": "qwen3-vl-2b-instruct-q4-k-m",
       "title": "Qwen3-VL 2B Instruct",
       "repository": "Arm/qwen3-vl-2b-instruct-q4-k-m-ggml-llama-cpp-vivo-x300",
+      "packageFile": "Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.zip",
       "modelFile": "Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.gguf",
       "projectorFile": "Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized_mmproj.gguf",
       "contextSize": 4096,

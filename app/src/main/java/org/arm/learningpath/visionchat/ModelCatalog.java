@@ -33,6 +33,7 @@ public final class ModelCatalog {
                         model.getString("id"),
                         model.getString("title"),
                         model.getString("repository"),
+                        model.getString("packageFile"),
                         model.getString("modelFile"),
                         model.getString("projectorFile"),
                         model.getInt("contextSize"),

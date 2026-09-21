@@ -13,13 +13,14 @@ without sending the image or prompt to a service. The application has no Android
 network permission.
 
 The model package is not included in the Android application package (APK).
-Vision Chat imports the language-model and vision-projector GGUF files at
-runtime and copies them to application-private storage.
+Vision Chat imports one ZIP containing the language-model and vision-projector
+GGUF files, verifies both files, and extracts them to application-private
+storage.
 
 ## Application views
 
 <p align="center">
-  <img src="docs/images/vision-chat-startup.png" width="45%" alt="Vision Chat before the model files and an image have been selected">
+  <img src="docs/images/vision-chat-startup.png" width="45%" alt="Vision Chat before the model package and an image have been selected">
   <img src="docs/images/vision-chat-result.png" width="45%" alt="Vision Chat displaying a Qwen3-VL response and local inference measurements">
 </p>
 
@@ -50,13 +51,13 @@ The `Features` line must contain `asimddp` and `i8mm`.
 
 ## Supported model
 
-| Model | Runtime | Import these files |
+| Model | Runtime | Import this file |
 | --- | --- | --- |
-| [Qwen3-VL 2B Instruct](https://huggingface.co/Arm/qwen3-vl-2b-instruct-q4-k-m-ggml-llama-cpp-vivo-x300) | llama.cpp with `libmtmd` | `Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.gguf` and `Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized_mmproj.gguf` |
+| [Qwen3-VL 2B Instruct](https://huggingface.co/Arm/qwen3-vl-2b-instruct-q4-k-m-ggml-llama-cpp-vivo-x300) | llama.cpp with `libmtmd` | `Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.zip` |
 
-The first GGUF contains the Q4_K_M language model. The matching `mmproj` GGUF
-contains the Q8_0 vision encoder and projector. Vision Chat requires both exact
-filenames and imports them together as one package.
+The package contains a Q4_K_M language-model GGUF, a matching Q8_0 `mmproj`
+GGUF for the vision encoder and projector, and a manifest with their sizes and
+SHA-256 hashes.
 
 ## Download the model package
 
@@ -90,17 +91,15 @@ On Windows PowerShell:
 .\.hf-venv\Scripts\python.exe download_model.py
 ```
 
-The downloader creates `models/qwen3-vl-2b/` and retrieves these files:
+The downloader creates `models/qwen3-vl-2b/` and produces these files:
 
-- `Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.gguf`
-- `Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized_mmproj.gguf`
+- `Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.zip`
 - `sample_input.jpg`
 
 Copy the files to the Android **Downloads** directory:
 
 ```console
-adb push models/qwen3-vl-2b/Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.gguf /sdcard/Download/
-adb push models/qwen3-vl-2b/Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized_mmproj.gguf /sdcard/Download/
+adb push models/qwen3-vl-2b/Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.zip /sdcard/Download/
 adb push models/qwen3-vl-2b/sample_input.jpg /sdcard/Download/
 ```
 
@@ -129,8 +128,8 @@ by Jarosław Ceborski, published under
    and CMake 3.22.1 with **Tools** > **SDK Manager** > **SDK Tools**.
 5. Connect the Android phone and select it as the deployment target.
 6. Select the `app` run configuration, then select **Run**.
-7. In Vision Chat, select **Add or change model files**. Open **Downloads**,
-   select both GGUF files, and confirm the selection.
+7. In Vision Chat, select **Add or change model package**. Open **Downloads**
+   and select `Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.zip`.
 8. Select **Choose a photo**, then choose `sample_input.jpg`.
 9. Enter `Describe this image in three sentences.` and select **Ask Qwen3-VL**.
 
@@ -138,10 +137,10 @@ The result card displays the generated response and local inference
 measurements. The application does not require a network connection after the
 model and image files are on the phone.
 
-The importer copies the model pair to application-private storage and activates
-it only after both copies complete. You can delete the originals from
-**Downloads** after import. Clearing the application data or uninstalling the
-application removes the imported copies.
+The importer extracts the model pair to application-private storage and
+activates it only after both files pass the manifest, checksum, and GGUF-header
+checks. You can delete the ZIP from **Downloads** after import. Clearing the
+application data or uninstalling the application removes the extracted files.
 
 ## License
 

@@ -1,7 +1,6 @@
 package org.arm.learningpath.visionchat;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -92,8 +90,7 @@ public class MainActivity extends Activity {
     private void openModelPicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setType("application/zip");
         startActivityForResult(intent, IMPORT_MODEL_REQUEST);
     }
 
@@ -111,49 +108,41 @@ public class MainActivity extends Activity {
             return;
         }
         if (requestCode == IMPORT_MODEL_REQUEST) {
-            List<Uri> uris = selectedUris(data);
-            if (!uris.isEmpty()) {
-                importSelectedModel(uris);
+            Uri packageUri = data.getData();
+            if (packageUri != null) {
+                importSelectedModel(packageUri);
             }
         } else if (requestCode == OPEN_IMAGE_REQUEST && data.getData() != null) {
             loadSelectedImage(data.getData());
         }
     }
 
-    private static List<Uri> selectedUris(Intent data) {
-        List<Uri> result = new ArrayList<>();
-        ClipData clipData = data.getClipData();
-        if (clipData != null) {
-            for (int index = 0; index < clipData.getItemCount(); index++) {
-                result.add(clipData.getItemAt(index).getUri());
-            }
-        } else if (data.getData() != null) {
-            result.add(data.getData());
-        }
-        return result;
-    }
-
-    private void importSelectedModel(List<Uri> uris) {
+    private void importSelectedModel(Uri packageUri) {
         setBusy(true, getString(R.string.importing_model));
         executor.execute(() -> {
             try {
                 runner.close();
-                ModelPackageImporter.PackageFiles imported = ModelPackageImporter.importFiles(
+                ModelPackageImporter.PackageFiles imported = ModelPackageImporter.importPackage(
                         getApplicationContext(),
-                        uris,
+                        packageUri,
                         modelsDirectory,
                         catalog
                 );
                 postToUi(() -> {
                     activePackage = imported;
                     updateModelState();
-                    results.setText(R.string.image_ready);
+                    results.setText(selectedBitmap == null
+                            ? R.string.model_package_ready
+                            : R.string.image_ready);
                     setBusy(false, null);
                 });
             } catch (Exception exception) {
-                postToUi(() -> showError(
-                        getString(R.string.model_import_failed, safeMessage(exception))
-                ));
+                postToUi(() -> {
+                    int message = activePackage == null
+                            ? R.string.model_import_failed
+                            : R.string.model_change_failed;
+                    showError(getString(message, safeMessage(exception)));
+                });
             }
         });
     }
