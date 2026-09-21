@@ -1,0 +1,18 @@
+{
+  "models": [
+    {
+      "id": "qwen3-vl-2b-instruct-q4-k-m",
+      "title": "Qwen3-VL 2B Instruct",
+      "repository": "Arm/qwen3-vl-2b-instruct-q4-k-m-ggml-llama-cpp-vivo-x300",
+      "modelFile": "Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized.gguf",
+      "projectorFile": "Qwen__Qwen3-VL-2B-Instruct_llamacpp_optimized_mmproj.gguf",
+      "contextSize": 4096,
+      "maximumImageEdge": 1280,
+      "maximumOutputTokens": 128,
+      "threads": 4,
+      "temperature": 0.7,
+      "topK": 20,
+      "topP": 0.8
+    }
+  ]
+}

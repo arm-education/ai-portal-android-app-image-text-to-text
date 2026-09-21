@@ -1,0 +1,16 @@
+.gradle/
+.DS_Store
+.idea/
+local.properties
+models/
+vision-chat-*.jpg
+.hf-venv/
+__pycache__/
+**/build/
+**/.cxx/
+**/.externalNativeBuild/
+*.iml
+third_party/llama.cpp/
+!app/src/main/AndroidManifest.xml
+!app/src/main/res/
+!app/src/main/res/**/*.xml

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vision Chat</string>
+    <string name="hero_eyebrow">ON-DEVICE AI</string>
+    <string name="screen_title">Ask about a photo</string>
+    <string name="screen_description">Use Qwen3-VL locally on your Arm-based phone. Your photo and prompt stay on the device.</string>
+    <string name="your_photo">Your photo</string>
+    <string name="selected_image">Photo selected for analysis</string>
+    <string name="choose_photo">Choose a photo</string>
+    <string name="prompt_title">What do you want to know?</string>
+    <string name="prompt_hint">Describe this image in three sentences.</string>
+    <string name="model_card_title">Vision-language model</string>
+    <string name="model_not_imported">Model setup needed</string>
+    <string name="model_missing_detail">Add the Qwen3-VL model and mmproj GGUF files as one package.</string>
+    <string name="model_ready">Qwen3-VL 2B is ready</string>
+    <string name="model_ready_detail">llama.cpp Q4_K_M model with its Q8_0 vision projector</string>
+    <string name="import_model">Add or change model files</string>
+    <string name="run_model">Ask Qwen3-VL</string>
+    <string name="cancel">Cancel</string>
+    <string name="results_title">Qwen3-VL response</string>
+    <string name="initial_instructions">Add both GGUF files, choose a photo, then ask a question.</string>
+    <string name="image_ready">Photo ready. Enter a prompt and run the model.</string>
+    <string name="importing_model">Copying the model package to private app storage&#8230;</string>
+    <string name="loading_model">Preparing Qwen3-VL, encoding the photo, and generating locally. The first run can take a while&#8230;</string>
+    <string name="cancelled">Generation cancelled.</string>
+    <string name="model_import_failed">Model setup failed: %1$s</string>
+    <string name="image_open_failed">Unable to open photo: %1$s</string>
+    <string name="inference_failed">Analysis failed: %1$s</string>
+    <string name="import_before_running">Add both model files before running inference.</string>
+    <string name="choose_before_running">Choose a photo before running inference.</string>
+    <string name="prompt_before_running">Enter a question about the photo.</string>
+    <string name="metrics_format">Model load %1$.1f s  |  image + prompt %2$.1f s  |  output %3$d  |  %4$.2f tok/s</string>
+    <string name="privacy_note">Offline inference | no network permission</string>
+</resources>
